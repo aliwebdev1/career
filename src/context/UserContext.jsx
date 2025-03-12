@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react';
 import app from '../firebase/firebase.config';
-import { createUserWithEmailAndPassword, getAuth, GithubAuthProvider, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, GithubAuthProvider, GoogleAuthProvider, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
 
 
 // auth init
@@ -18,6 +18,21 @@ const UserContext = ({ children }) => {
     const createUser = (email, password) => {
         return createUserWithEmailAndPassword(auth, email, password)
     }
+
+    // update user
+    const updateUser = (name)=>{
+        updateProfile(auth.currentUser, {
+            displayName: name
+          }).then(() => {
+          }).catch((error) => {
+          });
+    }
+
+    // verify user
+        const verifyUser =()=>{
+           return sendEmailVerification(auth.currentUser)
+        }
+
 
     // login user
     const loginUser = (email, password) => {
@@ -48,8 +63,10 @@ const UserContext = ({ children }) => {
     const unSubscribe = onAuthStateChanged(auth, currentUser => {
         console.log('Observing User', currentUser);
         setUser(currentUser)
-
-    }, () => unSubscribe())
+        return  () => {
+            unSubscribe()
+        }
+    },[])
 
 
     const authInfo = {
@@ -58,7 +75,9 @@ const UserContext = ({ children }) => {
         user,
         logOut,
         continueWithGoogle,
-        continueWithGithub
+        continueWithGithub,
+        updateUser,
+        verifyUser
 
     }
 

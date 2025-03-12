@@ -5,7 +5,7 @@ import { AuthContext } from '../../context/UserContext';
 
 
 const SignIn = () => {
-    const { loginUser, continueWithGoogle } = useContext(AuthContext)
+    const { loginUser, continueWithGoogle, continueWithGithub } = useContext(AuthContext)
 
     const handleSignInUser = (event) => {
         event.preventDefault()
@@ -54,7 +54,7 @@ const SignIn = () => {
 
                             <div className='flex justify-between overflow-hidden'>
                                 <button onClick={() => continueWithGoogle()} className=" btn btn-neutral mt-4" value="Register">Continue with Google</button>
-                                <button className="btn btn-neutral mt-4" value="Register">Continue with Github</button>
+                                <button  onClick={() => continueWithGithub()} className="btn btn-neutral mt-4" value="Register">Continue with Github</button>
                             </div>
                         </div>
                     </form>
