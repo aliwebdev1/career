@@ -8,39 +8,40 @@ import Blogs from '../Components/Blogs/Blogs';
 import SignIn from '../Components/SignIn/SignIn';
 import JobDetails from '../Components/Home/AllJobs/JobDetails/JobDetails';
 import SignUp from '../Components/SignUp/SignUp';
+import PrivateRoute from './PrivateRoute';
 
 const Routes = () => {
     const router = createBrowserRouter([
         {
-            path:'/',
-            element:<Root></Root>,
-            errorElement:<ErrorPage/>,
-            children:[
+            path: '/',
+            element: <Root></Root>,
+            errorElement: <ErrorPage />,
+            children: [
                 {
-                    path:'/',
-                    element:<Home></Home>
+                    path: '/',
+                    element: <Home></Home>
                 },
                 {
-                    path:'/jobs',
-                    loader:()=>fetch('https://next-level-two-ashen.vercel.app/jobs'),
-                    element:<AppliedJobs></AppliedJobs>
+                    path: '/jobs',
+                    loader: () => fetch('https://next-level-two-ashen.vercel.app/jobs'),
+                    element: <PrivateRoute><AppliedJobs></AppliedJobs> </PrivateRoute>
                 },
                 {
-                    path:'/blogs',
-                    element:<Blogs></Blogs>
+                    path: '/blogs',
+                    element: <PrivateRoute><Blogs></Blogs></PrivateRoute>
                 },
                 {
-                    path:'/login',
-                    element:<SignIn></SignIn>
+                    path: '/login',
+                    element: <SignIn></SignIn>
                 },
                 {
-                    path:'/register',
-                    element:<SignUp></SignUp>
+                    path: '/register',
+                    element: <SignUp></SignUp>
                 },
                 {
-                    path:'/job/:jobId',
-                    loader:({params})=>fetch(`https://next-level-two-ashen.vercel.app/jobs/${params.jobId}`),
-                    element:<JobDetails></JobDetails>
+                    path: '/job/:jobId',
+                    loader: ({ params }) => fetch(`https://next-level-two-ashen.vercel.app/jobs/${params.jobId}`),
+                    element: <JobDetails></JobDetails>
                 }
             ]
         }
